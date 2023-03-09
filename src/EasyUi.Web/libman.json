@@ -1,0 +1,15 @@
+{
+  "version": "1.0",
+  "defaultProvider": "filesystem",
+  "libraries": [
+    {
+      "library": "https://v2.cn.vuejs.org/js/vue.min.js",
+      "destination": "wwwroot/libs/vue/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "bootstrap-icons@1.10.3",
+      "destination": "wwwroot/libs/bootstrap-icons/"
+    }
+  ]
+}

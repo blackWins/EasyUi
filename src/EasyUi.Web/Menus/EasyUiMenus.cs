@@ -1,4 +1,4 @@
-﻿namespace EasyUi.Web.Menus;
+namespace EasyUi.Web.Menus;
 
 public class EasyUiMenus
 {
@@ -7,4 +7,6 @@ public class EasyUiMenus
 
     //Add your menu items here...
 
+    public const string Tags = Prefix + ".Tags";
+    public const string TagAttribute = Prefix + ".TagAttribute";
 }

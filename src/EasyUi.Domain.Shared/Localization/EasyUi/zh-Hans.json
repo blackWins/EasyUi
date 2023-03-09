@@ -1,8 +1,35 @@
 {
     "culture": "zh-Hans",
-    "texts": {
-      "Menu:Home": "首页",
-      "Welcome": "欢迎",
-      "LongWelcomeMessage": "欢迎来到该应用程序. 这是一个基于ABP框架的启动项目. 有关更多信息, 请访问 abp.io."
-    }
+  "texts": {
+    "Menu:Home": "首页",
+    "Welcome": "欢迎",
+    "LongWelcomeMessage": "欢迎来到该应用程序. 这是一个基于ABP框架的启动项目. 有关更多信息, 请访问 abp.io.",
+    "Permission:Tags": "UI组件",
+    "Permission:Create": "新增",
+    "Permission:Update": "修改",
+    "Permission:Delete": "删除",
+    "Menu:Tags": "UI组件",
+    "Tags": "UI组件",
+    "TagsName": "名称",
+    "TagsCode": "标签代码",
+    "TagsIsEnable": "TagsIsEnable",
+    "TagsAttribute": "属性列表",
+    "CreateTags": "新增组件",
+    "EditTags": "编辑组件",
+    "TagsDeletionConfirmationMessage": "确认删除组件 {0}?",
+    "SuccessfullyDeleted": "删除成功",
+    "TableFilter": "筛选",
+    "Permission:TagAttribute": "组件属性",
+    "Menu:TagAttribute": "组件属性",
+    "TagAttribute": "组件属性",
+    "TagAttributeName": "名称",
+    "TagAttributeType": "类型",
+    "TagAttributeDefaultValue": "默认值",
+    "TagAttributeDescription": "使用说明",
+    "CreateTagAttribute": "新增属性",
+    "EditTagAttribute": "编辑属性",
+    "TagAttributeDeletionConfirmationMessage": "确认删除属性 {0}?",
+    "AttributeSetting": "属性设置",
+    "Output": "输出"
+  }
   }

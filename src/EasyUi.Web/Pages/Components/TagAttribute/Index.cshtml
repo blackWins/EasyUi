@@ -1,0 +1,55 @@
+@page
+@using EasyUi.Permissions
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using EasyUi.Web.Pages.Components.TagAttribute
+@using EasyUi.Localization
+@using EasyUi.Web.Menus
+@model IndexModel
+@inject IPageLayout PageLayout
+@inject IHtmlLocalizer<EasyUiResource> L
+@inject IAuthorizationService Authorization
+@{
+    PageLayout.Content.Title = L["TagAttribute"].Value;
+    PageLayout.Content.BreadCrumb.Add(L["Menu:TagAttribute"].Value);
+    PageLayout.Content.MenuItemName = EasyUiMenus.TagAttribute;
+}
+
+@section scripts
+{
+    <abp-script src="/Pages/Components/TagAttribute/index.js" />
+}
+@section styles
+{
+    <abp-style src="/Pages/Components/TagAttribute/index.css"/>
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["TagAttribute"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-end">
+			    @if (await Authorization.IsGrantedAsync(EasyUiPermissions.TagAttribute.Create))
+                {
+                <abp-button id="NewTagAttributeButton"
+                            text="@L["CreateTagAttribute"].Value"
+                            icon="plus"
+                            button-type="Primary" />
+                }
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-row class="mb-3">
+            <a abp-collapse-id="TagAttributeCollapse" class="text-secondary">@L["TableFilter"] </a>
+        </abp-row>
+        <abp-collapse-body id="TagAttributeCollapse">
+            <abp-dynamic-form abp-model="TagAttributeFilter" id="TagAttributeFilter" required-symbols="false"/>
+            <hr />
+        </abp-collapse-body>
+        <abp-table striped-rows="true" id="TagAttributeTable" class="nowrap"/>
+    </abp-card-body>
+</abp-card>

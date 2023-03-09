@@ -1,4 +1,5 @@
-﻿using System;
+using EasyUi.Components;
+using System;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Uow;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -41,6 +42,8 @@ public class EasyUiEntityFrameworkCoreModule : AbpModule
                 /* Remove "includeAllEntities: true" to create
                  * default repositories only for aggregate roots */
             options.AddDefaultRepositories(includeAllEntities: true);
+            options.AddRepository<Tags, TagsRepository>();
+            options.AddRepository<TagAttribute, TagAttributeRepository>();
         });
 
         Configure<AbpDbContextOptions>(options =>

@@ -1,0 +1,96 @@
+﻿@page
+@using EasyUi.Localization;
+@using Microsoft.Extensions.Localization;
+@model EasyUi.Web.Pages.UniApp.IndexModel
+@inject IStringLocalizer<EasyUiResource> L
+@{
+}
+@section scripts{
+    <script src="~/libs/vue/vue.min.js"></script>
+    <abp-script src="/Pages/UniApp/editable-tree.js" />
+    <abp-script src="/Pages/UniApp/Index.js" />
+}
+@section styles{
+    <abp-style src="/Pages/UniApp/Index.css" />
+}
+<div id="main" class="row">
+    <!--sidebar start-->
+    <div class="col-sm-2">
+        <div class="h-auto">
+        <a href="/UniApp" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+            <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+            <span class="fs-5 fw-semibold">@L["Component"]</span>
+            </a>
+        </div>
+        <ul class="list-unstyled ps-0">
+            <li class="mb-1">
+                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                    @L["Uni-Ui"]
+                </button>
+                <div class="collapse show" id="home-collapse" style="">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li v-for="(item,idx) in componentList">
+                            <a href="#" class="link-dark d-inline-flex text-decoration-none rounded" v-on:click="getComponent(idx)">{{item.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="border-top my-3"></li>
+        </ul>
+    </div>
+    <!--sidebar end-->
+    <!--workspace start-->
+    <div class="col-sm-6">
+        <div class="pb-3">
+            <p class="fs-5 fw-semibold border-bottom pb-3">{{currentTagName}} @L["Output"]</p>
+            <pre>{{componentHtml}}</pre>
+           @* <textarea title="html code" v-model="componentHtml" class="form-control shadow-lg p-3 mb-5 bg-body-tertiary rounded" style="width:100%" readonly></textarea>*@
+        </div>
+        <p class="fs-5 fw-semibold border-bottom pb-3">@L["AttributeSetting"]</p>
+        <div class="alert alert-success">
+            使用<strong>@@</strong>触发绑定事件。
+        </div>
+        <abp-table hoverable-rows="true" responsive-sm="true">
+            <thead>
+                <tr>
+                    <th scope="Column">@L["TagAttributeName"]</th>
+                    <th scope="Column">@L["TagAttributeType"]</th>
+                    <th scope="Column">@L["TagAttributeDefaultValue"]</th>
+                    <th scope="Column">@L["TagAttributeDescription"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,idx) in properties">
+                    <th>{{item.name}}</th>
+                    <th>{{item.type}}</th>
+                    <th><input class="form-control" v-model="item.value" /></th>
+                    <th table-style="Info">{{item.description}}</th>
+                </tr>
+            </tbody>
+        </abp-table>
+    </div>
+    <!--workspace end-->
+    <!--present start-->
+    <div class="col-sm-4">
+        <div class="pb-3">
+            <p class="fs-5 fw-semibold border-bottom pb-3">@L["DomTree"]</p>
+        </div>
+        <div style="height:201px;width:100%;overflow-x:scroll">
+            <editable-tree ref="tree" @@item-click="treeClick" :items="items"></editable-tree>
+        </div>
+        <pre>{{pageHtml}}</pre>
+        @*<ul id="tree">
+        <li id="root">
+        <div class="tree-node">
+        <i class="fa fa-angle-down" onclick="toggle(this)"></i>
+        <span :class="{active:itemIndex==0}" onclick="toggleItem(0)">template</span>
+        <i class="fa fa-plus" onclick="addItem(this)"></i>
+        </div>
+        <ul id="root-children">
+        </ul>
+        </li>
+        </ul>*@
+    </div>
+    <!--present end-->
+
+</div>

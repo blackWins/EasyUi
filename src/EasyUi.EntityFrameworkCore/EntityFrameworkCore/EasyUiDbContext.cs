@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -12,6 +12,8 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using EasyUi.Components;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace EasyUi.EntityFrameworkCore;
 
@@ -51,6 +53,8 @@ public class EasyUiDbContext :
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
 
     #endregion
+    public DbSet<Tags> Tags { get; set; }
+    public DbSet<TagAttribute> TagAttributes { get; set; }
 
     public EasyUiDbContext(DbContextOptions<EasyUiDbContext> options)
         : base(options)
@@ -75,11 +79,19 @@ public class EasyUiDbContext :
 
         /* Configure your own tables/entities inside here */
 
-        //builder.Entity<YourEntity>(b =>
-        //{
-        //    b.ToTable(EasyUiConsts.DbTablePrefix + "YourEntities", EasyUiConsts.DbSchema);
-        //    b.ConfigureByConvention(); //auto configure for the base class props
-        //    //...
-        //});
+        builder.Entity<Tags>(b =>
+        {
+            b.ToTable(EasyUiConsts.DbTablePrefix + "Tags", EasyUiConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.HasMany(x => x.Attribute)
+                .WithOne(x => x.Tag)
+                .HasForeignKey(x => x.TagId);
+        });
+
+        builder.Entity<TagAttribute>(b =>
+        {
+            b.ToTable(EasyUiConsts.DbTablePrefix + "TagAttributes", EasyUiConsts.DbSchema);
+            b.ConfigureByConvention();
+        });
     }
 }
