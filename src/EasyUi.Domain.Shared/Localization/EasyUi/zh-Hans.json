@@ -1,5 +1,5 @@
 {
-    "culture": "zh-Hans",
+  "culture": "zh-Hans",
   "texts": {
     "Menu:Home": "首页",
     "Welcome": "欢迎",
@@ -30,6 +30,8 @@
     "EditTagAttribute": "编辑属性",
     "TagAttributeDeletionConfirmationMessage": "确认删除属性 {0}?",
     "AttributeSetting": "属性设置",
-    "Output": "输出"
+    "Output": "输出",
+    "parameters order [name \t type \t defaultValue \t description \n].each param use tab separated.": "参数顺序[名称\t类型\t默认值\t属性说明\n]。每个参数使用tab分隔。使用 shift + enter 添加多个属性。",
+    "propertyName\tpropertyType\tdefaultValue\tpropertyDescription\npropertyName2\tpropertyType2\tdefaultValue2\tpropertyDescription2": "text\tString\t-\t角标内容\nsize\tString\tnormal\t可取值：normal、small\n...更多属性"
   }
-  }
+}

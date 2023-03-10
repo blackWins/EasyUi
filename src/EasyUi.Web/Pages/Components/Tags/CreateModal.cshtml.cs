@@ -11,7 +11,7 @@ namespace EasyUi.Web.Pages.Components.Tags;
 public class CreateModalModel : EasyUiPageModel
 {
     [BindProperty]
-    public CreateEditTagsViewModel ViewModel { get; set; }
+    public CreateTagsViewModel ViewModel { get; set; }
 
     private readonly ITagsAppService _service;
 
@@ -22,7 +22,7 @@ public class CreateModalModel : EasyUiPageModel
 
     public virtual async Task<IActionResult> OnPostAsync()
     {
-        var dto = ObjectMapper.Map<CreateEditTagsViewModel, CreateUpdateTagsDto>(ViewModel);
+        var dto = ObjectMapper.Map<CreateTagsViewModel, CreateUpdateTagsDto>(ViewModel);
         var attributes = new List<TagAttributeDto>();
         var arr = ViewModel.Properties.Split(new[] { '\t', '\n' }).ToList();
         for (int i = 0; i < arr.Count; i+=4)

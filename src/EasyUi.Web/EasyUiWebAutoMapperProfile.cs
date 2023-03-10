@@ -10,8 +10,10 @@ public class EasyUiWebAutoMapperProfile : Profile
     public EasyUiWebAutoMapperProfile()
     {
         //Define your AutoMapper configuration here for the Web project.
-        CreateMap<TagsDto, CreateEditTagsViewModel>();
-        CreateMap<CreateEditTagsViewModel, CreateUpdateTagsDto>();
+        CreateMap<TagsDto, CreateTagsViewModel>();
+        CreateMap<TagsDto, EditTagsViewModel>();
+        CreateMap<CreateTagsViewModel, CreateUpdateTagsDto>();
+        CreateMap<EditTagsViewModel, CreateUpdateTagsDto>();
         CreateMap<TagAttributeDto, CreateEditTagAttributeViewModel>();
         CreateMap<CreateEditTagAttributeViewModel, CreateUpdateTagAttributeDto>();
     }

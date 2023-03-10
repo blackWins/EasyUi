@@ -14,7 +14,7 @@ public class EditModalModel : EasyUiPageModel
     public Guid Id { get; set; }
 
     [BindProperty]
-    public CreateEditTagsViewModel ViewModel { get; set; }
+    public EditTagsViewModel ViewModel { get; set; }
 
     private readonly ITagsAppService _service;
 
@@ -26,12 +26,12 @@ public class EditModalModel : EasyUiPageModel
     public virtual async Task OnGetAsync()
     {
         var dto = await _service.GetAsync(Id);
-        ViewModel = ObjectMapper.Map<TagsDto, CreateEditTagsViewModel>(dto);
+        ViewModel = ObjectMapper.Map<TagsDto, EditTagsViewModel>(dto);
     }
 
     public virtual async Task<IActionResult> OnPostAsync()
     {
-        var dto = ObjectMapper.Map<CreateEditTagsViewModel, CreateUpdateTagsDto>(ViewModel);
+        var dto = ObjectMapper.Map<EditTagsViewModel, CreateUpdateTagsDto>(ViewModel);
         await _service.UpdateAsync(Id, dto);
         return NoContent();
     }
