@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using EasyUi.Permissions;
 using EasyUi.Components.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Application.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EasyUi.Components;
 
@@ -12,7 +14,7 @@ public class TagsAppService : CrudAppService<Tags, TagsDto, Guid, TagsGetListInp
     ITagsAppService
 {
     protected override string GetPolicyName { get; set; } = EasyUiPermissions.Tags.Default;
-    protected override string GetListPolicyName { get; set; } = EasyUiPermissions.Tags.Default;
+    protected override string GetListPolicyName { get; set; } = null;
     protected override string CreatePolicyName { get; set; } = EasyUiPermissions.Tags.Create;
     protected override string UpdatePolicyName { get; set; } = EasyUiPermissions.Tags.Update;
     protected override string DeletePolicyName { get; set; } = EasyUiPermissions.Tags.Delete;
