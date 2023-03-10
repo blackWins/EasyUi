@@ -24,16 +24,16 @@ public class EasyUiMenuContributor : IMenuContributor
         var administration = context.Menu.GetAdministration();
         var l = context.GetLocalizer<EasyUiResource>();
 
-        context.Menu.Items.Insert(
-            0,
-            new ApplicationMenuItem(
-                EasyUiMenus.Home,
-                l["Menu:Home"],
-                "~/",
-                icon: "fas fa-home",
-                order: 0
-            )
-        );
+        //context.Menu.Items.Insert(
+        //    0,
+        //    new ApplicationMenuItem(
+        //        EasyUiMenus.Home,
+        //        l["Menu:Home"],
+        //        "~/",
+        //        icon: "fas fa-home",
+        //        order: 0
+        //    )
+        //);
 
         if (MultiTenancyConsts.IsEnabled)
         {
