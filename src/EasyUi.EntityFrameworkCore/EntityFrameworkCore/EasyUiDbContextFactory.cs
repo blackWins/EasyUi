@@ -17,7 +17,8 @@ public class EasyUiDbContextFactory : IDesignTimeDbContextFactory<EasyUiDbContex
         var configuration = BuildConfiguration();
 
         var builder = new DbContextOptionsBuilder<EasyUiDbContext>()
-            .UseSqlServer(configuration.GetConnectionString("Default"));
+            //.UseSqlServer(configuration.GetConnectionString("Default"));
+            .UseSqlite(configuration.GetConnectionString("Default"));
 
         return new EasyUiDbContext(builder.Options);
     }
