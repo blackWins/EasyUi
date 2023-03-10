@@ -263,3 +263,5 @@ src/EasyUi.Blazor.Server.Tiered/Logs/*
 
 # Use abp install-libs to restore.
 **/wwwroot/libs/*
+/src/EasyUi.Web/.config
+/src/EasyUi.Web/MySQLiteDBFile.sqlite
