@@ -31,7 +31,7 @@ $(function () {
         computed: {
             componentHtml() {
                 var config = this.getConfig();
-                console.log('componentHtml' + new Date())
+                //console.log('componentHtml' + new Date())
                 if (config.attributes) {
                     return this.template.replace('>', ' ' + config.attributes + '>');
                 }
@@ -53,7 +53,7 @@ $(function () {
                     h += result[c].html || '';
                 }
 
-                console.log(result);
+                //console.log(result);
                 var output = `
 <template>
     <view class="container">`+ h + `
@@ -101,7 +101,7 @@ $(function () {
                         attributes.push(this.properties[i].name + '="' + this.properties[i].value + '"');
                     }
                 }
-                console.log(func);
+                //console.log(func);
                 return {
                     attributes: attributes.join(' '),
                     model: bindModel,
@@ -122,7 +122,7 @@ $(function () {
                         f = f.concat(nodes[c].func);
                         h += nodes[c].html || '';
                     }
-                    console.log(func);
+                    //console.log(f);
                     //debugger
                     return {
                         model: item.config.model.concat(m),
