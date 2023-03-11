@@ -1,15 +1,16 @@
 ﻿var vm;
+var l = abp.localization.getResource('EasyUi');
 $(function () {
-    var l = abp.localization.getResource('BookStore');
 
     var model = {
+        fullscreen: false,
         currentTagName: '',
         componentList: [],
         properties: [],
         template: '',
         pk_counter: 0,
         doms: [],
-        items: [{ id: 0, parentId: 0, name: 'tepmlate', children: [], open: true }]
+        items: [{ id: 0, parentId: 0, name: 'tepmlate', children: [], open: true, addable: true }]
     }
 
     var defaultFunc = [{
@@ -30,10 +31,14 @@ $(function () {
         },
         computed: {
             componentHtml() {
-                var config = this.getConfig();
+                const reg = /<\/?[^>]*>/g;
+                const arr = this.template.match(reg);
+                console.log(arr);
+                var config = this.getConfig(this.properties);
                 //console.log('componentHtml' + new Date())
                 if (config.attributes) {
-                    return this.template.replace('>', ' ' + config.attributes + '>');
+                    var endBlock = this.template.match(/(\/?)>/)[0];//support end tag of '>' or '/>' 
+                    return this.template.replace(endBlock, ' ' + config.attributes + endBlock);
                 }
                 else {
                     return this.template;
@@ -56,8 +61,8 @@ $(function () {
                 //console.log(result);
                 var output = `
 <template>
-    <view class="container">`+ h + `
-    </view>
+	<view class="container">${h}
+	</view>
 </template>
 
 <script>
@@ -65,11 +70,11 @@ $(function () {
         components: {},
         data() {
             return {
-            `+ ([...new Set(m)].join(',\r\n')) + `
+            ${[...new Set(m)].join(',\n')}
             };
         },
         method: {
-            `+ ([...new Set(f)].join(',\r\n')) + `
+            ${[...new Set(f)].join(',\n')}
         }
     };
 </script>
@@ -80,25 +85,40 @@ $(function () {
             }
         },
         methods: {
-            getConfig() {
+            getConfig(properties) {
                 var attributes = [];
                 var bindModel = [];
                 var func = [];
-                for (var i in this.properties) {
-                    if (this.properties[i].value == this.properties[i].defaultValue) {
+                for (var i in properties) {
+                    if (!properties[i].value) {
                         continue;
                     }
-                    if (this.properties[i].type == 5) {
-                        var name = this.properties[i].value.replace('@', '');
-                        func.push(name + '(){}');
-                        attributes.push('@click="' + name + '"');
+                    properties[i].value = properties[i].value.replace(/"/g, "'");
+                    //try match @myFunc(param) or myFunc(param)
+                    var funclist = properties[i].value.match(/[@a-zA-Z_][a-zA-Z0-9_]*\(.*?\)/g);
+                    if (properties[i].type == 5) {//5:typeof function
+                        var funcName = properties[i].value.match(/[a-zA-Z_][a-zA-Z0-9_]*/);
+                        var param = properties[i].value.match(/\((.*?)\)/);
+                        func.push(funcName + '(' + (param == null ? '' : param[1].split(',').map(function (item, idx) { return 'p' + idx }).join(',')) + '){}');
+                        attributes.push(`@click="${properties[i].value.replace('@', '')}"`);
                     }
-                    else if (this.properties[i].value.indexOf('@') == 0) {
-                        attributes.push(':' + this.properties[i].name + '="' + (this.properties[i].value.substr(1)) + '"');
-                        bindModel.push(this.properties[i].value.substr(1) + ':""');
+                    else if (funclist) {
+                        attributes.push(`:${properties[i].name}="${properties[i].value.replace('@', '')}"`);
+                        for (var fi in funclist) {
+                            var funcName = funclist[fi].match(/[a-zA-Z_][a-zA-Z0-9_]*/);
+                            var param = funclist[fi].match(/\((.*?)\)/)[1];
+                            func.push(funcName + '(' + (param == '' ? '' : param.split(',').map(function (item, idx) { return 'p' + idx }).join(',')) + '){}');
+                        }
+                    }
+                    else if (properties[i].value.indexOf('@') == 0) {
+                        attributes.push(':' + properties[i].name + '="' + (properties[i].value.substr(1)) + '"');
+                        // filter like :class={'hidden':ishidden}
+                        if (!properties[i].value.match(/[:\+={}]/)) {
+                            bindModel.push(properties[i].value.substr(1) + ':""');
+                        }
                     }
                     else {
-                        attributes.push(this.properties[i].name + '="' + this.properties[i].value + '"');
+                        attributes.push(`${properties[i].name}="${properties[i].value}"`);
                     }
                 }
                 //console.log(func);
@@ -127,20 +147,16 @@ $(function () {
                     return {
                         model: item.config.model.concat(m),
                         func: item.config.func.concat(f),
-                        html: '\r\n' + tab + item.content.replace('><', '>' + h + '\r\n' + tab + '<')
+                        html: `\n${tab}` + item.content.replace('><', `>${h}\n${tab}<`)
                     };
-
-                    return '\r\n' + tab + item.content.replace('><', '>' + nodes.join('') + '\r\n' + tab + '<');
                 }
                 else {
 
                     return {
                         model: item.config.model,
                         func: item.config.func,
-                        html: '\r\n' + tab + item.content
+                        html: '\n' + tab + item.content
                     };
-
-                    return '\r\n' + tab + item.content;
                 }
             },
             setTab(count) {
@@ -169,7 +185,7 @@ $(function () {
                     .done(function (result) {
                         var properties = result.items;
                         for (var i in properties) {
-                            properties[i].value = properties[i].defaultValue;
+                            properties[i].value = null;[i].defaultValue;
                         }
                         that.properties = properties.concat(defaultFunc);
                     });
@@ -179,6 +195,23 @@ $(function () {
                     .done(function (result) {
                         console.log(result);
                     });
+            },
+            copy(type) {
+                const text = type == 'all' ? this.pageHtml : this.componentHtml;
+                navigator.clipboard.writeText(text);
+                alert(l('Copied'))
+
+            },
+            getTypeName(type) {
+                switch (type) {
+                    case 0: return 'String';
+                    case 1: return 'Boolean';
+                    case 2: return 'Numbuer';
+                    case 3: return 'Object';
+                    case 4: return 'Array';
+                    case 5: return 'Function';
+                    default: return '';
+                }
             }
         }
     })

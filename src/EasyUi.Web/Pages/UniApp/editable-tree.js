@@ -3,15 +3,13 @@
       <div class='tree'>
         <ul>
           <li v-for="(item,idx) in items" :key="item.id">
-            <div>
+            <span>
               <i @click="switchChange(idx)" class="fa" :class="{'fa-angle-down':item.open,'fa-angle-right':!item.open}"></i>
               <span @click="toggle(idx)">{{ item.name }}</span>
               <i class="fa fa-trash-alt" @click="removeItem(idx)" v-show="item.id!=0"></i>
-              <i class="fa fa-plus" @click="addItem(idx)"></i>
-            </div>
-            <div v-show="item.open">
-              <editable-tree @inner-click="innerClick" :level="level+1" :items="item.children"/>
-            </div>
+              <i class="fa fa-plus" @click="addItem(idx)" v-if="item.addable"></i>
+            </span>
+              <editable-tree @inner-click="innerClick" :level="level+1" :items="item.children" v-show="item.open"/>
           </li>
         </ul>
       </div>`,
@@ -55,7 +53,8 @@
                 parentId: this.items[idx].id,
                 name: vm.currentTagName + (vm.pk_counter),
                 content: vm.componentHtml,
-                config: vm.getConfig(),
+                config: vm.getConfig(vm.properties),
+                addable: vm.componentHtml.indexOf('/>') < 0,
                 children: [],
                 open: true
             }

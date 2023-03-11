@@ -16,7 +16,12 @@ main {
 }
 
 #main > div {
-    display: inline-grid;
+    /*display: inline-grid;*/
+}
+
+tbody, tfoot, tr, td, th {
+    font-weight: unset;
+    font-size: small;
 }
 
 .dropdown-toggle {
@@ -127,7 +132,7 @@ ul {
 }
 
 .tree {
-    min-width: 220px;
+    min-width: 320px;
 }
 
 .hidden {
@@ -144,3 +149,52 @@ pre {
     padding: 0 12px;
     border-radius: 0.375rem;
 }
+
+    pre span {
+        color: white;
+        float: right;
+        cursor: pointer;
+        position: sticky;
+        top: 0.5rem;
+        display: flex;
+        background-color: black;
+        border-radius: 5px;
+    }
+
+        pre span i {
+            padding: 0.5rem;
+        }
+
+textarea {
+    resize: both;
+}
+
+.full {
+    position: fixed;
+    height: 100vh !important;
+    left: 0;
+    top: 0;
+}
+
+.btn-copy {
+    color: white;
+    margin: 1rem;
+}
+
+/*scorll bar*/
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #c1c1c1;
+    border-radius: 3px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #a8a8a8;
+        cursor: default;
+    }
+/*scorll bar end*/
